@@ -1,0 +1,40 @@
+{
+  "name": "next-realtime-chat-app-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.13.2",
+    "cloudinary": "^1.29.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.0",
+    "inversify": "^6.0.1",
+    "jsonwebtoken": "^8.5.1",
+    "multer": "^1.4.4",
+    "reflect-metadata": "^0.1.13",
+    "socket.io": "^4.5.0",
+    "tslog": "^3.3.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/multer": "^1.4.7",
+    "@types/socket.io": "^3.0.2",
+    "@typescript-eslint/eslint-plugin": "^5.21.0",
+    "@typescript-eslint/parser": "^5.21.0",
+    "eslint": "^8.14.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.6.2",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.3"
+  }
+}
