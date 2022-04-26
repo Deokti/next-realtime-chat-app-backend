@@ -23,11 +23,11 @@
       "error",
       {
         "singleQuote": false,
-        "useTabs": true,
+        "useTabs": false,
         "semi": true,
         "trailingComma": "all",
         "bracketSpacing": true,
-        "printWidth": 100,
+        "printWidth": 80,
         "endOfLine": "auto"
       }
     ]
