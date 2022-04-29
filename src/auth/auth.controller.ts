@@ -1,7 +1,7 @@
-import { Router, Request, Response } from "express";
+import { Request, Response } from "express";
 import { inject, injectable } from "inversify";
 import "reflect-metadata";
-import { RouterController } from "../common/router.controller";
+import { RouterController } from "../router/router.controller";
 import { INVERSIFY_TYPES } from "../config/inversify.types";
 import { LoggerService } from "../logger/logger.service";
 
