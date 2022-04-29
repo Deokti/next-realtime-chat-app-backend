@@ -1,26 +1,26 @@
 import { Router, Request, Response } from "express";
-import { injectable } from "inversify";
+import { inject, injectable } from "inversify";
 import "reflect-metadata";
+import { RouterController } from "../common/router.controller";
+import { INVERSIFY_TYPES } from "../config/inversify.types";
+import { LoggerService } from "../logger/logger.service";
 
 @injectable()
-export class AuthController {
-  private readonly _router: Router;
+export class AuthController extends RouterController {
+  constructor(@inject(INVERSIFY_TYPES.Logger) logger: LoggerService) {
+    super(logger);
 
-  constructor() {
-    this._router = Router();
-    this._router.get("/login", this.login);
-    this._router.post("/register", this.register);
-  }
-
-  get router(): Router {
-    return this._router;
+    this.bindRoutes([
+      { path: "/login", method: "get", func: this.login },
+      { path: "/register", method: "post", func: this.register },
+    ]);
   }
 
   login(req: Request, res: Response): void {
-    res.send("LOGIN");
+    res.send("LOGIN 2");
   }
 
   register(req: Request, res: Response): void {
-    res.send("REGISTER");
+    res.send("REGISTER 2");
   }
 }
