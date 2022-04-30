@@ -4,6 +4,7 @@ import "reflect-metadata";
 import { RouterController } from "../router/router.controller";
 import { INVERSIFY_TYPES } from "../config/inversify.types";
 import { LoggerService } from "../logger/logger.service";
+import userModel from "../models/user.model";
 
 @injectable()
 export class AuthController extends RouterController {
@@ -17,10 +18,10 @@ export class AuthController extends RouterController {
   }
 
   login(req: Request, res: Response): void {
-    res.send("LOGIN 2");
+    res.send("LOGIN");
   }
 
-  register(req: Request, res: Response): void {
-    res.send("REGISTER 2");
+  async register(req: Request, res: Response): Promise<void> {
+    res.send("REGISTER");
   }
 }

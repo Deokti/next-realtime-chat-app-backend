@@ -5,6 +5,8 @@ import { INVERSIFY_TYPES } from "./config/inversify.types";
 import { LoggerService } from "./logger/logger.service";
 import express, { Express } from "express";
 import { json } from "body-parser";
+import { ConfigService } from "./config/config.service";
+import { DatabaseService } from "./database/database.service";
 
 @injectable()
 export class App {
@@ -12,15 +14,16 @@ export class App {
   port: number;
   constructor(
     @inject(INVERSIFY_TYPES.Logger) private logger: LoggerService,
-    @inject(INVERSIFY_TYPES.AuthController)
-    private authController: AuthController,
+    @inject(INVERSIFY_TYPES.ConfigService) private config: ConfigService,
+    @inject(INVERSIFY_TYPES.AuthController) private auth: AuthController,
+    @inject(INVERSIFY_TYPES.DatabaseService) private database: DatabaseService,
   ) {
     this.app = express();
-    this.port = 8000;
+    this.port = Number(this.config.get("PORT")) || 8000;
   }
 
-  useAuthRoutes(): void {
-    this.app.use("/auth", this.authController.router);
+  useRoutes(): void {
+    this.app.use("/auth", this.auth.router);
   }
 
   useJson(): void {
@@ -29,8 +32,9 @@ export class App {
 
   public init(): void {
     this.useJson();
-    this.useAuthRoutes();
+    this.useRoutes();
 
+    this.database.connect();
     this.app.listen(this.port);
     this.logger.info(`Сервер запущен на http://localhost:${this.port}`);
   }
