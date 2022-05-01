@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { Request, Response, NextFunction } from "express";
 import { inject, injectable } from "inversify";
 import "reflect-metadata";
@@ -10,29 +9,56 @@ import { IUsersController } from "../users/users.controller.interface";
 import { HTTPError } from "../errors/http.error";
 
 @injectable()
-export class AuthController extends RouterController implements IAuthController {
+export class AuthController
+  extends RouterController
+  implements IAuthController
+{
   constructor(
     @inject(INVERSIFY_TYPES.Logger) logger: LoggerService,
-    @inject(INVERSIFY_TYPES.UsersController) private usersController: IUsersController,
+    @inject(INVERSIFY_TYPES.UsersController)
+    private usersController: IUsersController,
   ) {
     super(logger);
 
     this.bindRoutes([
-      { path: "/login", method: "get", func: this.login },
+      { path: "/login", method: "post", func: this.login },
       { path: "/register", method: "post", func: this.register },
     ]);
   }
 
-  async login(req: Request, res: Response): Promise<void> {
-    res.send("login");
+  async login(
+    { body }: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    const account = await this.usersController.verification(body);
+
+    if (!account) {
+      return next(
+        new HTTPError(
+          422,
+          "Пользователя с таким Email или паролем не существует",
+          "LOGIN",
+        ),
+      );
+    }
+
+    res.status(200).send(account);
   }
 
-  async register(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const account = await this.usersController.find({ email: req.body.email });
+  async register(
+    { body }: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    const account = await this.usersController.find({ email: body.email });
 
-    if (account) return next(new HTTPError(409, "Такой E-mail уже существует", "REGISTER"));
+    if (account)
+      return next(
+        new HTTPError(409, "Такой E-mail уже существует", "REGISTER"),
+      );
 
-    const data = await this.usersController.create(req.body);
+    const data = await this.usersController.create(body);
     res.status(201).send(data);
   }
 }

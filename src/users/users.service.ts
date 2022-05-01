@@ -1,3 +1,4 @@
+import { ILogin } from "./../models/auth.model";
 import { inject, injectable } from "inversify";
 import "reflect-metadata";
 import { ConfigService } from "../config/config.service";
@@ -24,6 +25,16 @@ export class UsersService {
     await user.setPassword(password, salt);
 
     return this.repository.create(user);
+  }
+
+  async verification({ email, password }: ILogin): Promise<IUser | null> {
+    const find = await this.find({ email });
+
+    if (!find) return null;
+
+    const user = new User("", email, find.password);
+    const bool = await user.comparePassword(password);
+    return bool ? find : null;
   }
 
   async find(condition: СonditionFind): Promise<IUser | null> {
