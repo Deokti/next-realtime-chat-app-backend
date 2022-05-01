@@ -7,4 +7,5 @@ export const INVERSIFY_TYPES = {
   UsersController: Symbol.for("UsersController"),
   UsersService: Symbol.for("UsersService"),
   UsersRepository: Symbol.for("UsersRepository"),
+  ExeptionFilter: Symbol.for("ExeptionFilter"),
 };

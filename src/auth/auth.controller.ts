@@ -7,6 +7,7 @@ import { INVERSIFY_TYPES } from "../config/inversify.types";
 import { LoggerService } from "../logger/logger.service";
 import { IAuthController } from "./auth.controller.interface";
 import { IUsersController } from "../users/users.controller.interface";
+import { HTTPError } from "../errors/http.error";
 
 @injectable()
 export class AuthController extends RouterController implements IAuthController {
@@ -26,8 +27,12 @@ export class AuthController extends RouterController implements IAuthController 
     res.send("login");
   }
 
-  async register(req: Request, res: Response): Promise<void> {
+  async register(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const account = await this.usersController.find({ email: req.body.email });
+
+    if (account) return next(new HTTPError(409, "Такой E-mail уже существует", "REGISTER"));
+
     const data = await this.usersController.create(req.body);
-    res.send(data);
+    res.status(201).send(data);
   }
 }

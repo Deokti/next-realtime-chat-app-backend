@@ -4,6 +4,7 @@ import { AuthController } from "./auth/auth.controller";
 import { ConfigService } from "./config/config.service";
 import { INVERSIFY_TYPES } from "./config/inversify.types";
 import { DatabaseService } from "./database/database.service";
+import { ExeptionFilter } from "./errors/exeption.filter";
 import { LoggerService } from "./logger/logger.service";
 import { UsersController } from "./users/users.controller";
 import { IUsersController } from "./users/users.controller.interface";
@@ -18,6 +19,7 @@ const appBinding = new ContainerModule((bind) => {
   bind<IUsersController>(INVERSIFY_TYPES.UsersController).to(UsersController);
   bind<UsersService>(INVERSIFY_TYPES.UsersService).to(UsersService);
   bind<UsersRepository>(INVERSIFY_TYPES.UsersRepository).to(UsersRepository);
+  bind<ExeptionFilter>(INVERSIFY_TYPES.ExeptionFilter).to(ExeptionFilter);
 
   bind<App>(INVERSIFY_TYPES.App).to(App);
 });

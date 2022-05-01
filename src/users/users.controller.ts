@@ -1,6 +1,6 @@
 import { IRegister } from "../models/auth.model";
 import { IUser } from "../models/user.model";
-import { IUsersController } from "./users.controller.interface";
+import { IUsersController, СonditionFind } from "./users.controller.interface";
 import "reflect-metadata";
 import { inject, injectable } from "inversify";
 import { INVERSIFY_TYPES } from "../config/inversify.types";
@@ -17,9 +17,10 @@ export class UsersController implements IUsersController {
     return this.usersService.create(data);
   }
 
-  findById(_id: string): Promise<IUser> {
-    throw new Error("Method not implemented.");
+  async find(condition: СonditionFind): Promise<IUser | null> {
+    return this.usersService.find(condition);
   }
+
   getAll(): Promise<IUser[]> {
     throw new Error("Method not implemented.");
   }

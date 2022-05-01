@@ -1,10 +1,10 @@
 import { IRegister } from "./../models/auth.model";
 import { IUser } from "../models/user.model";
 
-export type Find = { [field: string]: string };
+export type СonditionFind = { [field: string]: string };
 
 export interface IUsersController {
   create(data: IRegister): Promise<IUser>;
-  findById(_id: string): Promise<IUser>;
+  find(condition: СonditionFind): Promise<IUser | null>;
   getAll(): Promise<IUser[]>;
 }

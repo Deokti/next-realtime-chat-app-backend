@@ -7,6 +7,7 @@ import express, { Express } from "express";
 import { json } from "body-parser";
 import { ConfigService } from "./config/config.service";
 import { DatabaseService } from "./database/database.service";
+import { ExeptionFilter } from "./errors/exeption.filter";
 
 @injectable()
 export class App {
@@ -17,6 +18,7 @@ export class App {
     @inject(INVERSIFY_TYPES.ConfigService) private config: ConfigService,
     @inject(INVERSIFY_TYPES.AuthController) private auth: AuthController,
     @inject(INVERSIFY_TYPES.DatabaseService) private database: DatabaseService,
+    @inject(INVERSIFY_TYPES.ExeptionFilter) private exeption: ExeptionFilter,
   ) {
     this.app = express();
     this.port = Number(this.config.get("PORT")) || 8000;
@@ -30,9 +32,14 @@ export class App {
     this.app.use(json());
   }
 
+  useExeptionFilter(): void {
+    this.app.use(this.exeption.catch.bind(this.exeption));
+  }
+
   public init(): void {
     this.useJson();
     this.useRoutes();
+    this.useExeptionFilter();
 
     this.database.connect();
     this.app.listen(this.port);
