@@ -10,7 +10,7 @@ import { UsersService } from "./users.service";
 export class UsersController implements IUsersController {
   constructor(
     @inject(INVERSIFY_TYPES.UsersService) private usersService: UsersService,
-  ) { }
+  ) {}
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   async create(data: IRegister): Promise<IUser> {

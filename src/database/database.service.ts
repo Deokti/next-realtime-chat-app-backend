@@ -11,7 +11,7 @@ export class DatabaseService {
   constructor(
     @inject(INVERSIFY_TYPES.Logger) private logger: LoggerService,
     @inject(INVERSIFY_TYPES.ConfigService) private config: ConfigService,
-  ) { }
+  ) {}
 
   async connect(): Promise<void> {
     try {

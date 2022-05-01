@@ -7,7 +7,7 @@ import { HTTPError } from "./http.error";
 
 @injectable()
 export class ExeptionFilter {
-  constructor(@inject(INVERSIFY_TYPES.Logger) private logger: LoggerService) { }
+  constructor(@inject(INVERSIFY_TYPES.Logger) private logger: LoggerService) {}
 
   public catch(
     error: Error | HTTPError,

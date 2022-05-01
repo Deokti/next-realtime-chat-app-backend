@@ -13,8 +13,9 @@ export class UsersService {
   constructor(
     @inject(INVERSIFY_TYPES.ConfigService) private config: ConfigService,
     // eslint-disable-next-line prettier/prettier
-    @inject(INVERSIFY_TYPES.UsersRepository) private repository: UsersRepository,
-  ) { }
+    @inject(INVERSIFY_TYPES.UsersRepository)
+    private repository: UsersRepository,
+  ) {}
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   async create({ email, password, username }: IRegister) {
