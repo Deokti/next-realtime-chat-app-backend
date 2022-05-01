@@ -1,22 +1,15 @@
 import { injectable } from "inversify";
 import "reflect-metadata";
-import { IUser, UserModel } from "../models/user.model";
+import { UserModel } from "../models/user.model";
 import { IUsersRepository } from "./users.repository.interface";
 import { Types } from "mongoose";
 import { СonditionFind } from "./users.controller.interface";
+import { IUser } from "../interfaces/auth.interface";
 
 @injectable()
 export class UsersRepository implements IUsersRepository {
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  async create({
-    email,
-    password,
-    username,
-    friends,
-    online,
-    dateRegistration,
-    salt,
-  }: IUser) {
+  async create({ email, password, username, friends, online, salt }: IUser) {
     return UserModel.create({
       _id: new Types.ObjectId(),
       email,
@@ -24,7 +17,6 @@ export class UsersRepository implements IUsersRepository {
       online,
       password,
       username,
-      dateRegistration,
       salt,
     });
   }

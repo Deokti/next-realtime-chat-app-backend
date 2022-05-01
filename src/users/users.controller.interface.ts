@@ -1,5 +1,4 @@
-import { ILogin, IRegister } from "./../models/auth.model";
-import { IUser } from "../models/user.model";
+import { IRegister, IUser, ILogin } from "../interfaces/auth.interface";
 
 export type СonditionFind = { [field: string]: string };
 

@@ -1,36 +1,39 @@
 import { Schema, model } from "mongoose";
+import { IUser } from "../interfaces/auth.interface";
 
-export interface IUser {
-  _id?: string;
-  username: string;
-  email: string;
-  password: string;
-  online: boolean;
-  friends: string[];
-  salt: string;
-  dateRegistration: number;
-}
-
-const User = new Schema<IUser>({
-  _id: Schema.Types.ObjectId,
-  username: {
-    type: String,
-    required: true,
+const User = new Schema<IUser>(
+  {
+    _id: Schema.Types.ObjectId,
+    username: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      unique: true,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    friends: Array,
+    salt: String,
+    online: Boolean,
   },
-  email: {
-    type: String,
-    unique: true,
-    required: true,
+  {
+    toJSON: {
+      virtuals: true,
+      transform: function (doc, ret): any {
+        delete ret.password;
+        delete ret.salt;
+        delete ret.id;
+        return ret;
+      },
+    },
+    timestamps: true,
   },
-  password: {
-    type: String,
-    required: true,
-  },
-  friends: Array,
-  dateRegistration: Number,
-  salt: String,
-  online: Boolean,
-});
+);
 
 const UserModel = model("UserModel", User);
 export { UserModel };

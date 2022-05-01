@@ -1,10 +1,9 @@
-import { ILogin, IRegister } from "../models/auth.model";
-import { IUser } from "../models/user.model";
 import { IUsersController, СonditionFind } from "./users.controller.interface";
 import "reflect-metadata";
 import { inject, injectable } from "inversify";
 import { INVERSIFY_TYPES } from "../config/inversify.types";
 import { UsersService } from "./users.service";
+import { IRegister, IUser, ILogin } from "../interfaces/auth.interface";
 
 @injectable()
 export class UsersController implements IUsersController {

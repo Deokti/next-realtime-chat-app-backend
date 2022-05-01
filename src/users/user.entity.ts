@@ -1,6 +1,6 @@
-import { IUser } from "./../models/user.model";
 import { hash, compare } from "bcryptjs";
 import csprng from "csprng";
+import { IUser } from "../interfaces/auth.interface";
 
 export class User implements IUser {
   private _username: string;
@@ -8,7 +8,6 @@ export class User implements IUser {
   private _online: boolean;
   private _friends: string[];
   private _password: string;
-  private _dateRegistration: number;
   private _salt: string;
 
   constructor(
@@ -29,7 +28,6 @@ export class User implements IUser {
     this._username = username;
     this._online = false;
     this._friends = [];
-    this._dateRegistration = Date.now();
   }
 
   // Присоединяем к паролю рандомный hash и хешируем солью
@@ -62,10 +60,6 @@ export class User implements IUser {
 
   get online(): boolean {
     return this._online;
-  }
-
-  get dateRegistration(): number {
-    return this._dateRegistration;
   }
 
   get salt(): string {

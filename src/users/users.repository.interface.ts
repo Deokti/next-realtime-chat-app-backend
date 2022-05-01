@@ -1,4 +1,4 @@
-import { IUser } from "../models/user.model";
+import { IUser } from "../interfaces/auth.interface";
 import { СonditionFind } from "./users.controller.interface";
 
 export interface IUsersRepository {
