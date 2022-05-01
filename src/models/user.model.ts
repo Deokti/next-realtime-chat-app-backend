@@ -5,8 +5,10 @@ export interface IUser {
   username: string;
   email: string;
   password: string;
-  isOnline: boolean;
+  online: boolean;
   friends: string[];
+  hash: string;
+  dateRegistration: number;
 }
 
 const User = new Schema<IUser>({
@@ -24,10 +26,10 @@ const User = new Schema<IUser>({
     type: String,
     required: true,
   },
-  isOnline: {
-    type: Boolean,
-  },
   friends: Array,
+  dateRegistration: Number,
+  hash: String,
+  online: Boolean,
 });
 
 const UserModel = model("UserModel", User);

@@ -32,9 +32,8 @@ export class UsersService {
 
     if (!find) return null;
 
-    const user = new User("", email, find.password);
-    const bool = await user.comparePassword(password);
-    return bool ? find : null;
+    const user = new User("", email, find.password, find.hash);
+    return (await user.comparePassword(password)) ? find : null;
   }
 
   async find(condition: СonditionFind): Promise<IUser | null> {
