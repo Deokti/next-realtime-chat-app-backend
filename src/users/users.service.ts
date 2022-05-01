@@ -21,8 +21,8 @@ export class UsersService {
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   async create({ email, password, username }: IRegister) {
     const user = new User(username, email);
-    const salt = Number(this.config.get("SALT")) || 14;
-    await user.setPassword(password, salt);
+    const key = Number(this.config.get("PUBLIC_KEY")) || 14;
+    await user.setPassword(password, key);
 
     return this.repository.create(user);
   }
@@ -32,7 +32,7 @@ export class UsersService {
 
     if (!find) return null;
 
-    const user = new User("", email, find.password, find.hash);
+    const user = new User("", email, find.password, find.salt);
     return (await user.comparePassword(password)) ? find : null;
   }
 

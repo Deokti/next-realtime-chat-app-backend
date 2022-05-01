@@ -7,7 +7,7 @@ export interface IUser {
   password: string;
   online: boolean;
   friends: string[];
-  hash: string;
+  salt: string;
   dateRegistration: number;
 }
 
@@ -28,7 +28,7 @@ const User = new Schema<IUser>({
   },
   friends: Array,
   dateRegistration: Number,
-  hash: String,
+  salt: String,
   online: Boolean,
 });
 

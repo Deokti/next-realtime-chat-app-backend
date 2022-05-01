@@ -15,7 +15,7 @@ export class UsersRepository implements IUsersRepository {
     friends,
     online,
     dateRegistration,
-    hash,
+    salt,
   }: IUser) {
     return UserModel.create({
       _id: new Types.ObjectId(),
@@ -25,7 +25,7 @@ export class UsersRepository implements IUsersRepository {
       password,
       username,
       dateRegistration,
-      hash,
+      salt,
     });
   }
 

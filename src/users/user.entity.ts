@@ -9,20 +9,20 @@ export class User implements IUser {
   private _friends: string[];
   private _password: string;
   private _dateRegistration: number;
-  private _hash: string;
+  private _salt: string;
 
   constructor(
     username: string,
     email: string,
     password?: string,
-    hash?: string,
+    salt?: string,
   ) {
     if (password) this._password = password;
 
-    if (hash) {
-      this._hash = hash;
+    if (salt) {
+      this._salt = salt;
     } else {
-      this._hash = csprng(140, 20);
+      this._salt = csprng(140, 20);
     }
 
     this._email = email;
@@ -34,14 +34,14 @@ export class User implements IUser {
 
   // Присоединяем к паролю рандомный hash и хешируем солью
   async setPassword(password: string, salt: number): Promise<void> {
-    this._password = await hash(password + this._hash, salt);
+    this._password = await hash(password + this._salt, salt);
   }
 
   // Для использования этой функции, необходимо передать необязательные параметры
   // 1. Пароль пользователя из БД
   // 2. Сгенерируемый hash
   async comparePassword(password: string): Promise<boolean> {
-    return compare(password + this._hash, this._password);
+    return compare(password + this._salt, this._password);
   }
 
   get username(): string {
@@ -68,7 +68,7 @@ export class User implements IUser {
     return this._dateRegistration;
   }
 
-  get hash(): string {
-    return this._hash;
+  get salt(): string {
+    return this._salt;
   }
 }
