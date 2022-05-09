@@ -17,7 +17,6 @@ export class ConfigService {
   }
 
   get(key: string): string {
-    this.logger.info(`[${key}] ${this.config[key]}`);
     return this.config[key];
   }
 }
