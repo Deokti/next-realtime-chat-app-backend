@@ -25,10 +25,6 @@ export class UsersRepository implements IUsersRepository {
     return UserModel.findById(_id);
   }
 
-  async getAll(): Promise<IUser[]> {
-    return UserModel.find({});
-  }
-
   async find(condition: СonditionFind): Promise<IUser | null> {
     return await UserModel.findOne(condition);
   }

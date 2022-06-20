@@ -11,9 +11,9 @@ export class ExeptionFilter {
 
   public catch(
     error: Error | HTTPError,
-    req: Request,
+    _: Request,
     res: Response,
-    next: NextFunction,
+    __: NextFunction,
   ): void {
     if (error instanceof HTTPError) {
       this.logger.error(

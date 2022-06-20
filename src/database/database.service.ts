@@ -15,8 +15,8 @@ export class DatabaseService {
 
   async connect(): Promise<void> {
     try {
-      this.logger.info("[CONNECT DATABASE]");
       await mongoose.connect(this.config.get("DATABASE_URL"));
+      this.logger.info("[CONNECT DATABASE]");
     } catch (error) {
       this.logger.error("[ERROR CONNECT DATABASE]");
     }

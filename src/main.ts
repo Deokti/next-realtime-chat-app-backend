@@ -5,6 +5,7 @@ import { ConfigService } from "./config/config.service";
 import { INVERSIFY_TYPES } from "./config/inversify.types";
 import { DatabaseService } from "./database/database.service";
 import { ExeptionFilter } from "./errors/exeption.filter";
+import { JwtSerice } from "./jwt/jwt.service";
 import { LoggerService } from "./logger/logger.service";
 import { UsersController } from "./users/users.controller";
 import { IUsersController } from "./users/users.controller.interface";
@@ -20,6 +21,7 @@ const appBinding = new ContainerModule((bind) => {
   bind<UsersService>(INVERSIFY_TYPES.UsersService).to(UsersService);
   bind<UsersRepository>(INVERSIFY_TYPES.UsersRepository).to(UsersRepository);
   bind<ExeptionFilter>(INVERSIFY_TYPES.ExeptionFilter).to(ExeptionFilter);
+  bind<JwtSerice>(INVERSIFY_TYPES.JwtSerice).to(JwtSerice);
 
   bind<App>(INVERSIFY_TYPES.App).to(App);
 });

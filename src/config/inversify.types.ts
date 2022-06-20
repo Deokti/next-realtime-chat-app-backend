@@ -8,4 +8,5 @@ export const INVERSIFY_TYPES = {
   UsersService: Symbol.for("UsersService"),
   UsersRepository: Symbol.for("UsersRepository"),
   ExeptionFilter: Symbol.for("ExeptionFilter"),
+  JwtSerice: Symbol.for("JwtSerice"),
 };

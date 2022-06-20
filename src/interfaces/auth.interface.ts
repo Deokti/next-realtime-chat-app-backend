@@ -18,3 +18,8 @@ export interface IRegister {
   password: string;
   username: string;
 }
+
+export interface IJwt {
+  _id: string | undefined;
+  accessToken: string;
+}
