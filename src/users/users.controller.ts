@@ -2,12 +2,12 @@ import { IUsersController, СonditionFind } from "./users.controller.interface";
 import "reflect-metadata";
 import { inject, injectable } from "inversify";
 import { INVERSIFY_TYPES } from "../config/inversify.types";
-import { UsersService } from "./users.service";
 import { IRegister, IUser, ILogin } from "../interfaces/auth.interface";
 import { RouterController } from "../router/router.controller";
-import { LoggerService } from "../logger/logger.service";
 import { NextFunction, Request, Response } from "express";
 import { HTTPError } from "../errors/http.error";
+import { ILoggerService } from "../logger/logger.service.interface";
+import { IUsersService } from "./users.service.interface";
 
 @injectable()
 export class UsersController
@@ -15,8 +15,8 @@ export class UsersController
   implements IUsersController
 {
   constructor(
-    @inject(INVERSIFY_TYPES.UsersService) private usersService: UsersService,
-    @inject(INVERSIFY_TYPES.Logger) logger: LoggerService,
+    @inject(INVERSIFY_TYPES.UsersService) private usersService: IUsersService,
+    @inject(INVERSIFY_TYPES.Logger) logger: ILoggerService,
   ) {
     super(logger);
 

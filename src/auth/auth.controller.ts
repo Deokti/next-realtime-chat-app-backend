@@ -3,11 +3,11 @@ import { inject, injectable } from "inversify";
 import "reflect-metadata";
 import { RouterController } from "../router/router.controller";
 import { INVERSIFY_TYPES } from "../config/inversify.types";
-import { LoggerService } from "../logger/logger.service";
 import { IAuthController } from "./auth.controller.interface";
 import { IUsersController } from "../users/users.controller.interface";
 import { HTTPError } from "../errors/http.error";
-import { JwtSerice } from "../jwt/jwt.service";
+import { ILoggerService } from "../logger/logger.service.interface";
+import { IJwtService } from "../jwt/jwt.service.interface";
 
 @injectable()
 export class AuthController
@@ -15,9 +15,9 @@ export class AuthController
   implements IAuthController
 {
   constructor(
-    @inject(INVERSIFY_TYPES.Logger) logger: LoggerService,
+    @inject(INVERSIFY_TYPES.Logger) logger: ILoggerService,
     @inject(INVERSIFY_TYPES.UsersController) private users: IUsersController,
-    @inject(INVERSIFY_TYPES.JwtSerice) private jwtSerice: JwtSerice,
+    @inject(INVERSIFY_TYPES.JwtSerice) private jwtSerice: IJwtService,
   ) {
     super(logger);
 

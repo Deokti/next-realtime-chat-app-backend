@@ -1,30 +1,29 @@
 import { inject, injectable } from "inversify";
 import "reflect-metadata";
-import { AuthController } from "./auth/auth.controller";
 import { INVERSIFY_TYPES } from "./config/inversify.types";
-import { LoggerService } from "./logger/logger.service";
 import express, { Express } from "express";
 import { json } from "body-parser";
-import { ConfigService } from "./config/config.service";
-import { DatabaseService } from "./database/database.service";
-import { ExeptionFilter } from "./errors/exeption.filter";
 import { IUsersController } from "./users/users.controller.interface";
-import { UsersController } from "./users/users.controller";
 import { AuthMiddleware } from "./auth/auth.middleware";
-import { JwtSerice } from "./jwt/jwt.service";
+import { ILoggerService } from "./logger/logger.service.interface";
+import { IConfigService } from "./config/config.service.interface";
+import { IAuthController } from "./auth/auth.controller.interface";
+import { IDatabaseService } from "./database/database.service.interface";
+import { IExeptionFilter } from "./errors/exeption.filter.interface";
+import { IJwtService } from "./jwt/jwt.service.interface";
 
 @injectable()
 export class App {
   app: Express;
   port: number;
   constructor(
-    @inject(INVERSIFY_TYPES.Logger) private logger: LoggerService,
-    @inject(INVERSIFY_TYPES.ConfigService) private config: ConfigService,
-    @inject(INVERSIFY_TYPES.AuthController) private auth: AuthController,
-    @inject(INVERSIFY_TYPES.DatabaseService) private database: DatabaseService,
-    @inject(INVERSIFY_TYPES.ExeptionFilter) private exeption: ExeptionFilter,
-    @inject(INVERSIFY_TYPES.UsersController) private users: UsersController,
-    @inject(INVERSIFY_TYPES.JwtSerice) private jwt: JwtSerice,
+    @inject(INVERSIFY_TYPES.Logger) private logger: ILoggerService,
+    @inject(INVERSIFY_TYPES.ConfigService) private config: IConfigService,
+    @inject(INVERSIFY_TYPES.AuthController) private auth: IAuthController,
+    @inject(INVERSIFY_TYPES.DatabaseService) private database: IDatabaseService,
+    @inject(INVERSIFY_TYPES.ExeptionFilter) private exeption: IExeptionFilter,
+    @inject(INVERSIFY_TYPES.UsersController) private users: IUsersController,
+    @inject(INVERSIFY_TYPES.JwtSerice) private jwt: IJwtService,
   ) {
     this.app = express();
     this.port = Number(this.config.get("PORT")) || 8000;

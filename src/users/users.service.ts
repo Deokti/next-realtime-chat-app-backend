@@ -1,19 +1,19 @@
 import { inject, injectable } from "inversify";
 import "reflect-metadata";
-import { ConfigService } from "../config/config.service";
+import { IConfigService } from "../config/config.service.interface";
 import { INVERSIFY_TYPES } from "../config/inversify.types";
 import { IRegister, ILogin, IUser } from "../interfaces/auth.interface";
 import { User } from "./user.entity";
 import { СonditionFind } from "./users.controller.interface";
-import { UsersRepository } from "./users.repository";
+import { IUsersRepository } from "./users.repository.interface";
+import { IUsersService } from "./users.service.interface";
 
 @injectable()
-export class UsersService {
+export class UsersService implements IUsersService {
   constructor(
-    @inject(INVERSIFY_TYPES.ConfigService) private config: ConfigService,
+    @inject(INVERSIFY_TYPES.ConfigService) private config: IConfigService,
     // eslint-disable-next-line prettier/prettier
-    @inject(INVERSIFY_TYPES.UsersRepository)
-    private repository: UsersRepository,
+    @inject(INVERSIFY_TYPES.UsersRepository) private repo: IUsersRepository,
   ) {}
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -22,7 +22,7 @@ export class UsersService {
     const key = Number(this.config.get("PUBLIC_KEY")) || 14;
     await user.setPassword(password, key);
 
-    return this.repository.create(user);
+    return this.repo.create(user);
   }
 
   async verification({ email, password }: ILogin): Promise<IUser | null> {
@@ -34,6 +34,6 @@ export class UsersService {
   }
 
   async find(condition: СonditionFind): Promise<IUser | null> {
-    return this.repository.find(condition);
+    return this.repo.find(condition);
   }
 }

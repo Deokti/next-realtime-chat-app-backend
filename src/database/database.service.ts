@@ -2,15 +2,16 @@ import { inject, injectable } from "inversify";
 import mongoose from "mongoose";
 
 import "reflect-metadata";
-import { ConfigService } from "../config/config.service";
+import { IConfigService } from "../config/config.service.interface";
 import { INVERSIFY_TYPES } from "../config/inversify.types";
-import { LoggerService } from "../logger/logger.service";
+import { ILoggerService } from "../logger/logger.service.interface";
+import { IDatabaseService } from "./database.service.interface";
 
 @injectable()
-export class DatabaseService {
+export class DatabaseService implements IDatabaseService {
   constructor(
-    @inject(INVERSIFY_TYPES.Logger) private logger: LoggerService,
-    @inject(INVERSIFY_TYPES.ConfigService) private config: ConfigService,
+    @inject(INVERSIFY_TYPES.Logger) private logger: ILoggerService,
+    @inject(INVERSIFY_TYPES.ConfigService) private config: IConfigService,
   ) {}
 
   async connect(): Promise<void> {

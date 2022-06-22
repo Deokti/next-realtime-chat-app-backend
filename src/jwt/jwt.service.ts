@@ -2,19 +2,20 @@ import { inject, injectable } from "inversify";
 import { Request, Response, NextFunction } from "express";
 import "reflect-metadata";
 import { INVERSIFY_TYPES } from "../config/inversify.types";
-import { LoggerService } from "../logger/logger.service";
 import jsonWebToken, { verify } from "jsonwebtoken";
-import { ConfigService } from "../config/config.service";
 import { IJwt } from "../interfaces/auth.interface";
 import { HTTPError } from "../errors/http.error";
+import { ILoggerService } from "../logger/logger.service.interface";
+import { IConfigService } from "../config/config.service.interface";
+import { IJwtService } from "./jwt.service.interface";
 
 @injectable()
-export class JwtSerice {
-  jwt: typeof jsonWebToken;
+export class JwtService implements IJwtService {
+  private jwt: typeof jsonWebToken;
 
   constructor(
-    @inject(INVERSIFY_TYPES.Logger) private logger: LoggerService,
-    @inject(INVERSIFY_TYPES.ConfigService) private config: ConfigService,
+    @inject(INVERSIFY_TYPES.Logger) private logger: ILoggerService,
+    @inject(INVERSIFY_TYPES.ConfigService) private config: IConfigService,
   ) {
     this.jwt = jsonWebToken;
   }
