@@ -46,7 +46,10 @@ export class AuthController
       );
     }
 
-    res.status(200).send("");
+    const { _id, email, password } = account;
+    const jwt = this.jwtSerice.sign(_id, email, password);
+
+    res.status(200).send(jwt);
   }
 
   async register(
@@ -63,6 +66,7 @@ export class AuthController
     }
 
     const { _id, email, password } = await this.users.create(body);
-    res.status(201).send(this.jwtSerice.sign(_id, email, password));
+    const jwt = this.jwtSerice.sign(_id, email, password);
+    res.status(201).send(jwt);
   }
 }

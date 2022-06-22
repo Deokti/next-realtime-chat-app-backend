@@ -10,6 +10,8 @@ import { DatabaseService } from "./database/database.service";
 import { ExeptionFilter } from "./errors/exeption.filter";
 import { IUsersController } from "./users/users.controller.interface";
 import { UsersController } from "./users/users.controller";
+import { AuthMiddleware } from "./auth/auth.middleware";
+import { JwtSerice } from "./jwt/jwt.service";
 
 @injectable()
 export class App {
@@ -22,6 +24,7 @@ export class App {
     @inject(INVERSIFY_TYPES.DatabaseService) private database: DatabaseService,
     @inject(INVERSIFY_TYPES.ExeptionFilter) private exeption: ExeptionFilter,
     @inject(INVERSIFY_TYPES.UsersController) private users: UsersController,
+    @inject(INVERSIFY_TYPES.JwtSerice) private jwt: JwtSerice,
   ) {
     this.app = express();
     this.port = Number(this.config.get("PORT")) || 8000;
@@ -34,11 +37,14 @@ export class App {
     this.app.use("/users", this.users.router);
   }
 
-  useJson(): void {
+  useMiddleware(): void {
     // Анализирует приходящий запрос от Frontend
     // и помещает данные в request.body. Если это не сделать,
     // никакие данные при отправке с Frontend по API не появятся в body
     this.app.use(json());
+
+    const authMiddleware = new AuthMiddleware(this.jwt);
+    this.app.use(authMiddleware.execute.bind(authMiddleware));
   }
 
   useExeptionFilter(): void {
@@ -49,7 +55,7 @@ export class App {
   }
 
   public async init(): Promise<void> {
-    this.useJson();
+    this.useMiddleware();
     this.useRoutes();
     this.useExeptionFilter();
 

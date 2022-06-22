@@ -27,7 +27,6 @@ export class UsersService {
 
   async verification({ email, password }: ILogin): Promise<IUser | null> {
     const find = await this.find({ email });
-
     if (!find) return null;
 
     const user = new User("", email, find.password, find.salt);
