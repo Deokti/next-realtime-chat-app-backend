@@ -1,7 +1,6 @@
 import { config, DotenvConfigOutput, DotenvParseOutput } from "dotenv";
 import { inject, injectable } from "inversify";
 import "reflect-metadata";
-import { LoggerService } from "../logger/logger.service";
 import { ILoggerService } from "../logger/logger.service.interface";
 import { INVERSIFY_TYPES } from "./inversify.types";
 

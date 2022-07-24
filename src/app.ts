@@ -16,7 +16,7 @@ import cors from "cors";
 @injectable()
 export class App {
   app: Express;
-  port: number;
+  port: number | string;
   constructor(
     @inject(INVERSIFY_TYPES.Logger) private logger: ILoggerService,
     @inject(INVERSIFY_TYPES.ConfigService) private config: IConfigService,
@@ -27,12 +27,13 @@ export class App {
     @inject(INVERSIFY_TYPES.JwtSerice) private jwt: IJwtService,
   ) {
     this.app = express();
-    this.port = Number(this.config.get("PORT")) || 8000;
+    this.port = process.env.PORT || 8000;
   }
 
   useRoutes(): void {
     // При передаче пути и роутера интерпретируется как путь мартрутизации.
     // При получении запроса выполняет функции, находящиеся в переданной функции
+    this.app.use("/");
     this.app.use("/auth", this.auth.router);
     this.app.use("/users", this.users.router);
   }
