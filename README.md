@@ -59,3 +59,19 @@ curl POST http://localhost:8000/auth/register
 Далее пароль хешируется (пока тестируется как именно):
 
 После регистрации возвращается объект, состоящий из `_id`, `JWT Token` и `Refresh JWT Token`.
+
+## Users
+
+Для обращения к пользователям, или получение пользователя/пользователей.
+
+### GET USER (GET)
+
+Получать пользователя можно по `ID` и `email`.
+
+```javascript
+// Получение по `ID`
+curl GET http://localhost:8000/?id=62b328ad8113324546e5b76c
+
+// Получение по `EMAIL`
+curl GET http://localhost:8000/?email=test@test.com
+```

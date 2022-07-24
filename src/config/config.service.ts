@@ -12,7 +12,7 @@ export class ConfigService {
   constructor(@inject(INVERSIFY_TYPES.Logger) private logger: ILoggerService) {
     this.isBuild = process.argv.includes("build");
 
-    if (!this.isBuild) {
+    if (this.isBuild === false) {
       const configDotenv: DotenvConfigOutput = config();
       if (configDotenv.error) {
         this.logger.error(`${[ConfigService]} ${configDotenv.error}`);

@@ -9,6 +9,8 @@ import { HTTPError } from "../errors/http.error";
 import { ILoggerService } from "../logger/logger.service.interface";
 import { IUsersService } from "./users.service.interface";
 
+const verifiableQuery = ["id", "email"];
+
 @injectable()
 export class UsersController
   extends RouterController
@@ -20,9 +22,7 @@ export class UsersController
   ) {
     super(logger);
 
-    this.bindRoutes([
-      { path: "/findById", method: "get", func: this.findById },
-    ]);
+    this.bindRoutes([{ path: "/", method: "get", func: this.get }]);
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -38,12 +38,22 @@ export class UsersController
     return this.usersService.find(condition);
   }
 
-  async findById(
-    { body }: Request,
+  async get(
+    { query }: Request,
     res: Response,
     next: NextFunction,
   ): Promise<void> {
-    const find = await this.usersService.find({ _id: body._id });
+    if (!isVerificetionQuery(query)) {
+      return next(
+        new HTTPError(
+          409,
+          "В качестве кулюча может выступать id или email",
+          "USERS",
+        ),
+      );
+    }
+
+    const find = await this.usersService.find(query as СonditionFind);
 
     if (!find) {
       return next(
@@ -53,4 +63,8 @@ export class UsersController
 
     res.status(200).json(find);
   }
+}
+
+function isVerificetionQuery(query: object): boolean {
+  return verifiableQuery.includes(Object.keys(query)[0]);
 }

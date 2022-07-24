@@ -8,5 +8,5 @@ export interface IUsersController extends RouterController {
   create(data: IRegister): Promise<IUser>;
   verification(data: ILogin): Promise<IUser | null>;
   find(condition: СonditionFind): Promise<IUser | null>;
-  findById(req: Request, res: Response, next: NextFunction): Promise<void>;
+  get(req: Request, res: Response, next: NextFunction): Promise<void>;
 }
