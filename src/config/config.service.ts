@@ -6,17 +6,21 @@ import { INVERSIFY_TYPES } from "./inversify.types";
 
 @injectable()
 export class ConfigService {
-  private config: DotenvParseOutput;
+  // private config: DotenvParseOutput;
 
-  constructor(@inject(INVERSIFY_TYPES.Logger) private logger: ILoggerService) {
-    const configDotenv: DotenvConfigOutput = config();
-    if (configDotenv.error) {
-      this.logger.error(`${[ConfigService]} ${configDotenv.error}`);
-    }
-    this.config = configDotenv.parsed as DotenvParseOutput;
-  }
+  // constructor(@inject(INVERSIFY_TYPES.Logger) private logger: ILoggerService) {
+  //   const configDotenv: DotenvConfigOutput = config();
+  //   if (configDotenv.error) {
+  //     this.logger.error(`${[ConfigService]} ${configDotenv.error}`);
+  //   }
+  //   this.config = configDotenv.parsed as DotenvParseOutput;
+  // }
+
+  // get(key: string): string {
+  //   return this.config[key];
+  // }
 
   get(key: string): string {
-    return this.config[key];
+    return process.env[key] as any;
   }
 }

@@ -33,7 +33,6 @@ export class App {
   useRoutes(): void {
     // При передаче пути и роутера интерпретируется как путь мартрутизации.
     // При получении запроса выполняет функции, находящиеся в переданной функции
-    this.app.use("/");
     this.app.use("/auth", this.auth.router);
     this.app.use("/users", this.users.router);
   }
