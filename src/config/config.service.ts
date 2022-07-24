@@ -6,21 +6,22 @@ import { INVERSIFY_TYPES } from "./inversify.types";
 
 @injectable()
 export class ConfigService {
-  // private config: DotenvParseOutput;
+  private config: DotenvParseOutput;
+  private isBuild = false;
 
-  // constructor(@inject(INVERSIFY_TYPES.Logger) private logger: ILoggerService) {
-  //   const configDotenv: DotenvConfigOutput = config();
-  //   if (configDotenv.error) {
-  //     this.logger.error(`${[ConfigService]} ${configDotenv.error}`);
-  //   }
-  //   this.config = configDotenv.parsed as DotenvParseOutput;
-  // }
+  constructor(@inject(INVERSIFY_TYPES.Logger) private logger: ILoggerService) {
+    this.isBuild = process.argv.includes("build");
 
-  // get(key: string): string {
-  //   return this.config[key];
-  // }
+    if (!this.isBuild) {
+      const configDotenv: DotenvConfigOutput = config();
+      if (configDotenv.error) {
+        this.logger.error(`${[ConfigService]} ${configDotenv.error}`);
+      }
+      this.config = configDotenv.parsed as DotenvParseOutput;
+    }
+  }
 
   get(key: string): string {
-    return process.env[key] as any;
+    return this.isBuild ? (process.env[key] as any) : this.config[key];
   }
 }
