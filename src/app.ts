@@ -11,6 +11,7 @@ import { IAuthController } from "./auth/auth.controller.interface";
 import { IDatabaseService } from "./database/database.service.interface";
 import { IExeptionFilter } from "./errors/exeption.filter.interface";
 import { IJwtService } from "./jwt/jwt.service.interface";
+import cors from "cors";
 
 @injectable()
 export class App {
@@ -53,7 +54,18 @@ export class App {
     this.app.use(this.exeption.catch.bind(this.exeption));
   }
 
+  useCors(): void {
+    this.app.use(
+      cors({
+        origin: "*",
+        credentials: true,
+      }),
+    );
+  }
+
   public async init(): Promise<void> {
+    this.useCors();
+
     this.useMiddleware();
     this.useRoutes();
     this.useExeptionFilter();
